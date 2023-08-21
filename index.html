@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .form-control:focus{
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 0px rgba(255, 100, 255, 0.5);
+        }
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .custom-input{
+            background-color:#f2e5bc;
+            border: none;
+            text-align: center;
+        }
+        .custom-input:focus{
+            background-color: #f2e5bc;
+        }
+        
+    </style>
+</head>
+<body style="background-color:#f2e5bc;" onkeyup="convert()" onload="loadSavedItem()">
+    <div class="container-fluid">
+        <div class="row text-center" style="background-color:#4472c4;">
+            <div class="col-">
+                <h2 style="color:#f2e5bc;padding-top:15px;padding-bottom:15px;">भूमि मापन इकाइयाँ</h2>
+            </div>
+        </div>
+        <div class="row text-center mt-5">
+            <div class="col-5">
+                <select class="form-select selectpicker" onchange="onChange()" aria-label="Default select example" id="setValue1">
+                    <option selected></option>
+                    <option value="1" id="p1">हेक्टेयर</option>
+                    <option value="2" id="p2">एकड़</option>
+                    <option value="3" id="p3">एयर</option>
+                    <option value="4" id="p4">बीघा</option>
+                    <option value="5" id="p5">बिस्सा</option>
+                    <option value="6" id="p6">कड़ी</option>
+                </select>
+            </div>
+            <div class="col-2">
+                
+            </div>
+            <div class="col-5">
+                <select onchange="onChange()" class="form-select selectpicker" aria-label="Default select example" id="setValue2">
+                    <option selected></option>
+                    <option value="1" id="op1">हेक्टेयर</option>
+                    <option value="2" id="op2">एकड़</option>
+                    <option value="3" id="op3">एयर</option>
+                    <option value="4" id="op4">बीघा</option>
+                    <option value="5" id="op5">बिस्सा</option>
+                    <option value="6" id="op6">कड़ी</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-">
+                <button style="background-color:#f2e5bc;border:none;" onclick="interchange()"><i class="fa-solid fa-arrow-right-arrow-left fa-2xl"></i></button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-5">
+                <input type="number" class="form-control" id="myinput">
+            </div>
+            <div class="col-2">
+
+            </div>
+            <div class="col-5">
+                <input type="number" class="form-control" id="myoutput" readonly>
+            </div>
+        </div>
+
+        <div class="row border border-dark rounded mt-5 text-center mx-2">
+            <div class="col-">
+                <button type="button" style="border:none;background-color:#f2e5bc;" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                <h4 style="margin-top:10px;">मानक पैमाना</h4>
+                <hr style="border:solid black 2px;" class="mx-5">
+            
+            </div>
+            <div class="row g-0 mb-3">
+                <div class="col-6 border-end border-dark">
+                    <input type="text" class="form-control custom-input" value="1   हेक्टेयर" readonly>
+                    <input type="text" class="form-control custom-input" value="1   हेक्टेयर" readonly>
+                    <input type="text" class="form-control custom-input" value="1   हेक्टेयर" readonly>
+                    <input type="text" class="form-control custom-input" value="1   हेक्टेयर" readonly>
+                    <input type="text" class="form-control custom-input" value="1   हेक्टेयर" readonly>
+                </div>
+                <div class="col-3">
+                    <input type="text" class="form-control text-end custom-input" id="acre" readonly>
+                    <input type="text" class="form-control text-end custom-input" id="ares" readonly>
+                    <input type="text" class="form-control text-end custom-input" id="bigha" readonly>
+                    <input type="text" class="form-control text-end custom-input" id="bissa" readonly>
+                    <input type="text" class="form-control text-end custom-input" id="kadi" readonly>
+                </div>
+                <div class="col-3 text-right">
+                    <input class="form-control text-start px-0 custom-input" value="एकड़" readonly>
+                    <input class="form-control text-start px-0 custom-input" value="एयर" readonly>
+                    <input class="form-control text-start px-0 custom-input" value="बीघा" readonly>
+                    <input class="form-control text-start px-0 custom-input" value="बिस्सा" readonly>
+                    <input class="form-control text-start px-0 custom-input" value="कड़ी" readonly>
+    
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">मानक पैमाना</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+        
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row g=0">
+                        <div class="col-6 border-end border-dark">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" value="1   हेक्टेयर" readonly>
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" value="1   हेक्टेयर" readonly>
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" value="1   हेक्टेयर" readonly>
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" value="1   हेक्टेयर" readonly>
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" value="1   हेक्टेयर" readonly>
+                        </div>
+                        <div class="col-2 px-0">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" id="acre1">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" id="ares1">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" id="bigha1">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" id="bissa1">
+                            <input type="text" class="form-control text-end custom-input bg-light-subtle" id="kadi1">
+                        </div>
+                        <div class="col-4 text-right px-0">
+                            <input class="form-control text-start custom-input bg-light-subtle" value="एकड़" readonly>
+                            <input class="form-control text-start custom-input bg-light-subtle" value="एयर" readonly>
+                            <input class="form-control text-start custom-input bg-light-subtle" value="बीघा" readonly>
+                            <input class="form-control text-start custom-input bg-light-subtle" value="बिस्सा" readonly>
+                            <input class="form-control text-start custom-input bg-light-subtle" value="कड़ी" readonly>
+            
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Modal footer -->
+                <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearSaveItems()">reset</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="saveItems()">Save</button>
+                </div>
+        
+            </div>
+            </div>
+        </div>
+
+    </div>
+    
+    
+
+    <script>
+        var value1 = document.getElementById("setValue1");
+        var value2 = document.getElementById("setValue2");
+        var Acre = document.getElementById("acre");
+        var Ares = document.getElementById("ares");
+        var Bigha = document.getElementById("bigha");
+        var Bissa = document.getElementById("bissa");
+        var Kadi = document.getElementById("kadi");
+        var Acre1 = document.getElementById("acre1");
+        var Ares1 = document.getElementById("ares1");
+        var Bigha1 = document.getElementById("bigha1");
+        var Bissa1 = document.getElementById("bissa1");
+        var Kadi1 = document.getElementById("kadi1");
+        var myinput = document.getElementById("myinput");
+        var myoutput = document.getElementById("myoutput");
+        var mymodel = document.getElementById("mymodel");
+
+
+        var op1 = document.getElementById("op1");
+        var op2 = document.getElementById("op2");
+        var op3 = document.getElementById("op3");
+        var op4 = document.getElementById("op4");
+        var op5 = document.getElementById("op5");
+        var op6 = document.getElementById("op6");
+
+        var p1 = document.getElementById("p1");
+        var p2 = document.getElementById("p2");
+        var p3 = document.getElementById("p3");
+        var p4 = document.getElementById("p4");
+        var p5 = document.getElementById("p5");
+        var p6 = document.getElementById("p6");
+
+        var arr = [op1,op2,op3,op4,op5,op6];
+        var arr1 = [p1,p2,p3,p4,p5,p6];
+
+        if(value1.value==""){
+            value1.value=1;
+        }
+        if(value2.value==""){
+            value2.value=2;
+        }
+
+       hideAndSeek();
+
+       function loadSavedItem(){
+        if (localStorage.getItem("acre")!=null){
+            Acre.value = localStorage.getItem("acre");
+            Acre1.value = localStorage.getItem("acre");
+            Ares.value = localStorage.getItem("ares");
+            Ares1.value = localStorage.getItem("ares");
+            Bigha.value = localStorage.getItem("bigha");
+            Bigha1.value = localStorage.getItem("bigha");
+            Bissa.value = localStorage.getItem("bissa");
+            Bissa1.value = localStorage.getItem("bissa");
+            Kadi.value = localStorage.getItem("kadi");
+            Kadi1.value = localStorage.getItem("kadi");
+        }
+        else{
+            defaultSet();
+        }
+       }
+
+       function clearSaveItems(){
+         localStorage.clear();
+         location.reload();
+       }
+
+       function saveItems(){
+            localStorage.setItem("acre",Acre1.value);
+            localStorage.setItem("ares",Ares1.value);
+            localStorage.setItem("bigha",Bigha1.value);
+            localStorage.setItem("bissa",Bissa1.value);
+            localStorage.setItem("kadi",Kadi1.value);
+            location.reload();
+       }
+
+        function convert(){
+            if(myinput.value==""){
+                myoutput.value="";
+            }else{
+            var x = Number(myinput.value);
+            switch(value1.value){
+                case "1":
+                    switch(value2.value){
+                        case "1":
+                            myoutput.value = x;
+                            break;
+                        case "2":
+                            myoutput.value = (Number(Acre.value)*Number(x)).toFixed(3);
+                            break;
+                        case "3":
+                            myoutput.value = (Number(Ares.value)*Number(x)).toFixed(3);
+                            break;
+                        case "4":
+                            myoutput.value = (Number(Bigha.value)*Number(x)).toFixed(3);
+                            break;
+                        case "5":
+                            myoutput.value = (Number(Bissa.value)*Number(x)).toFixed(3);
+                            break;
+                        case "6":
+                            myoutput.value = (Number(Kadi.value)*Number(x)).toFixed(3);
+                            break;
+                    }
+                    break;
+                case "2":
+                        switch(value2.value){
+                            case "1":
+                                myoutput.value = (Number(x)/Number(Acre.value)).toFixed(3);
+                                break;
+                            case "2":
+                                myoutput.value = ((Number(Acre.value)/Number(Acre.value))*Number(x)).toFixed(3);
+                                break;
+                            case "3":
+                                myoutput.value = ((Number(Ares.value)/Number(Acre.value))*Number(x)).toFixed(3);
+                                break;
+                            case "4":
+                                myoutput.value = ((Number(Bigha.value)/Number(Acre.value))*Number(x)).toFixed(3);
+                                break;
+                            case "5":
+                                myoutput.value = ((Number(Bissa.value)/Number(Acre.value))*Number(x)).toFixed(3);
+                                break;
+                            case "6":
+                                myoutput.value = ((Number(Kadi.value)/Number(Acre.value))*Number(x)).toFixed(3);
+                                break;
+                        }
+                    break;
+                case "3":
+                        switch(value2.value){
+                            case "1":
+                                myoutput.value = (Number(x)/Number(Ares.value)).toFixed(3);
+                                break;
+                            case "2":
+                                myoutput.value = ((Number(Acre.value)/Number(Ares.value))*Number(x)).toFixed(3);
+                                break;
+                            case "3":
+                                myoutput.value = ((Number(Ares.value)/Number(Ares.value))*Number(x)).toFixed(3);
+                                break;
+                            case "4":
+                                myoutput.value = ((Number(Bigha.value)/Number(Ares.value))*Number(x)).toFixed(3);
+                                break;
+                            case "5":
+                                myoutput.value = ((Number(Bissa.value)/Number(Ares.value))*Number(x)).toFixed(3);
+                                break;
+                            case "6":
+                                myoutput.value = ((Number(Kadi.value)/Number(Ares.value))*Number(x)).toFixed(3);
+                                break;
+                        }
+                    break;
+                case "4": 
+                        switch(value2.value){
+                            case "1":
+                                myoutput.value = (Number(x)/Number(Bigha.value)).toFixed(3);
+                                break;
+                            case "2":
+                                myoutput.value = ((Number(Acre.value)/Number(Bigha.value))*Number(x)).toFixed(3);
+                                break;
+                            case "3":
+                                myoutput.value = ((Number(Ares.value)/Number(Bigha.value))*Number(x)).toFixed(3);
+                                break;
+                            case "4":
+                                myoutput.value = ((Number(Bigha.value)/Number(Bigha.value))*Number(x)).toFixed(3);
+                                break;
+                            case "5":
+                                myoutput.value = ((Number(Bissa.value)/Number(Bigha.value))*Number(x)).toFixed(3);
+                                break;
+                            case "6":
+                                myoutput.value = ((Number(Kadi.value)/Number(Bigha.value))*Number(x)).toFixed(3);
+                                break;
+                        }
+                    break;
+                case "5":
+                        switch(value2.value){
+                            case "1":
+                                myoutput.value = (Number(x)/Number(Bissa.value)).toFixed(3);
+                                break;
+                            case "2":
+                                myoutput.value = ((Number(Acre.value)/Number(Bissa.value))*Number(x)).toFixed(3);
+                                break;
+                            case "3":
+                                myoutput.value = ((Number(Ares.value)/Number(Bissa.value))*Number(x)).toFixed(3);
+                                break;
+                            case "4":
+                                myoutput.value = ((Number(Bigha.value)/Number(Bissa.value))*Number(x)).toFixed(3);
+                                break;
+                            case "5":
+                                myoutput.value = ((Number(Bissa.value)/Number(Bissa.value))*Number(x)).toFixed(3);
+                                break;
+                            case "6":
+                                myoutput.value = ((Number(Kadi.value)/Number(Bissa.value))*Number(x)).toFixed(3);
+                                break;
+                        } 
+                    break;
+                case "6": 
+                        switch(value2.value){
+                            case "1":
+                                myoutput.value = (Number(x)/Number(Kadi.value)).toFixed(3);
+                                break;
+                            case "2":
+                                myoutput.value = ((Number(Acre.value)/Number(Kadi.value))*Number(x)).toFixed(3);
+                                break;
+                            case "3":
+                                myoutput.value = ((Number(Ares.value)/Number(Kadi.value))*Number(x)).toFixed(3);
+                                break;
+                            case "4":
+                                myoutput.value = ((Number(Bigha.value)/Number(Kadi.value))*Number(x)).toFixed(3);
+                                break;
+                            case "5":
+                                myoutput.value = ((Number(Bissa.value)/Number(Kadi.value))*Number(x)).toFixed(3);
+                                break;
+                            case "6":
+                                myoutput.value = ((Number(Kadi.value)/Number(Kadi.value))*Number(x)).toFixed(3);
+                                break;
+                        }
+                    break;
+            }
+            }
+            
+        }
+        function onChange(){
+            hideAndSeek();
+            convert();
+        }
+        function hideAndSeek(){
+            for(let i=0;i<6;i++){
+                arr[i].style.display = "block";
+                arr1[i].style.display = "block";
+                
+            }
+            arr[Number(value1.value)-1].style.display="none";
+            arr1[Number(value2.value)-1].style.display="none";
+            
+        }
+
+        function interchange(){
+            var val = value1.value;
+            value1.value = value2.value;
+            value2.value = val;
+            var val1 = myinput.value;
+            myinput.value = myoutput.value;
+            myoutput.value = val1;
+            hideAndSeek();
+        }
+
+        function defaultSet(){
+            if(Acre.value==""){
+                Acre.value="2.47";
+                Acre1.value="2.47";
+            }
+            if(Ares.value==""){
+                Ares.value="100";
+                Ares1.value="100";
+            }
+            if(Bigha.value==""){
+                Bigha.value="4";
+                Bigha1.value="4";
+            }
+            if(Bissa.value==""){
+                Bissa.value="80";
+                Bissa1.value="80";
+            }
+            if(Kadi.value==""){
+                Kadi.value="2560";
+                Kadi1.value="2560";
+            }
+        }
+    </script>
+</body>
+</html>
